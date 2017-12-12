@@ -18,15 +18,15 @@ $("#search-btn").on("click", function (event) {
 
     var trainTime = ($("#time").val());
 
-    var tFrequency = ($("#freq").val());
+    var frequency = ($("#freq").val());
 
 
 
 
     database.ref().push({
         name: trainName,
-        time: roleData,
-        freq: tFrequency,
+        time: trainTime,
+        freq: frequency,
         timeAdded: firebase.database.ServerValue.TIMESTAMP
     });
 
@@ -39,11 +39,12 @@ database.ref().on("child_added", function (childSnapshot) {
     console.log(childSnapshot.val().freq);
     console.log(childSnapshot.val().timeAdded);
 
-        // Assumptions
-        var tFrequency = 15;
+        // tfrequency from input user
+        var tFrequency = $("#frequency").val();
         
-            // Time is 3:30 AM
-            var firstTime = "03:30";
+            // from timeAdded
+            var firstTime = $("#number").val();
+            
         
             // First Time (pushed back 1 year to make sure it comes before current time)
             var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
@@ -70,9 +71,9 @@ database.ref().on("child_added", function (childSnapshot) {
             console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
     var row = $("<tr>");
-    row.append("<td id='employee_'> " + childSnapshot.val().employee +
-        " </td><td id = 'role_'> " + childSnapshot.val().role +
-        " </td><td id = 'startYear_'> " + childSnapshot.val().startYear +
-        " </td><td id = 'dateAdded_'> " + childSnapshot.val().dateAdded + " </td>");
+    row.append("<td id='employee_'> " + childSnapshot.val().name +
+        " </td><td id = 'role_'> " + childSnapshot.val().time +
+        " </td><td id = 'startYear_'> " + childSnapshot.val().freq +
+        " </td><td id = 'dateAdded_'> " + childSnapshot.val().timeAdded + " </td>");
     $("#tableBody").append(row);
 });
